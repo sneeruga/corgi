@@ -1,0 +1,121 @@
+// Defining Global variables for canvas size
+var containerW = 0;
+var containerH = 0;
+var containerX = 0;
+var containerY = 0;
+
+var img;
+//var moveCorgi;
+var corgiX;
+var corgiY;
+
+// Defining list of snowflakes array
+var snowflakes = [
+	{ x: 10, y: 10, size: 5, v: 5},
+	{ x: 30, y: 30, size: 4, v: 5 }
+];
+
+
+function setup () {
+	// Calculating and Updating variables for canvas size		
+	containerW = windowWidth;
+	containerH = windowHeight;
+	containerX = windowWidth;
+	containerY = windowHeight;
+
+	// Randomly Generate snowflakes
+	for (var i = 0; i < 100; i++) {
+		var newX = random(containerW); // where to start on x
+		var newY = random((containerH * 1)); // where to start on y
+		var newS = random(3, 8); // how big to be
+		var newV = random(2, 5); // how fast to move
+
+		// Add each snowflake as it is generated to the snowflakes
+		snowflakes.push({ x: newX, y: newY, size: newS, v: newV });
+	}
+
+	// Create new canvas element within section#Display
+	var Canvas = createCanvas(containerW, containerH); 
+	Canvas.parent('Display');
+	frameRate(30);
+	noStroke();
+    
+    //load image of corgi
+    img =loadImage("img/corgi.png");
+    
+    //initiating x coordinates for corgi
+    //moveCorgi = 0;
+    corgiX = 100;
+    corgiY = windowHeight - 100;
+}
+
+
+
+function draw () {
+	// erase all pixels on canvas
+	background(50);
+
+	// for each snowflake
+	for (var i = 0; i < snowflakes.length; i++) {
+		var flake = snowflakes[i]; // define current snowflake
+		
+		// update flake y coordinate based on flake velocity
+		flake.y = flake.y + flake.v;
+
+		// if flake is beyond bottom of the canvas element, start it at the top
+		if ( flake.y > containerH ) {
+			flake.y = 0;
+		}
+
+		// draw snowflake
+		ellipse(flake.x, flake.y, flake.size, flake.size);
+	}
+    /*//draw corgi
+    image(img, moveCorgi, containerH-190, img.width/2, img.height/2);
+    moveCorgi++;
+       if (moveCorgi <= windowWidth) {
+        moveCorgi++;
+         }
+         else{
+         moveCorgi--;
+         } */
+    //draw corgi
+    image(img, corgiX - 100, corgiY - 27, img.width/3, img.height/3);
+}
+  
+
+
+
+
+function keyPressed () {
+    if (keyCode !== 37 && keyCode !== 38 && keyCode !== 39 && keyCode !== 40 && keyCode !== 32) {
+        return;
+    }
+    //left arrow
+    if (keyCode == 37)
+        corgiX -= 5;
+    
+    if (corgiX < -110)
+       corgiX = windowWidth - (img.width/3);
+    // right arrow
+    if (keyCode == 39)
+        corgiX += 5;
+    
+    if (corgiX > windowWidth)
+       corgiX = 0;
+    //space
+    if (keyCode == 38) 
+        corgiY -= 5; 
+    
+    if(corgiY < windowHeight/2)
+        corgiY = windowHeight/2;
+    //down arrow
+    if (keyCode == 40)
+        corgiY += 5;
+    
+    if(corgiY > windowHeight)
+        corgiY = windowHeight;
+    
+    //console.log ("keyPressed", keyCode)
+}
+
