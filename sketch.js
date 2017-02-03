@@ -80,42 +80,84 @@ function draw () {
          moveCorgi--;
          } */
     //draw corgi
-    image(img, corgiX - 100, corgiY - 27, img.width/3, img.height/3);
+
+    // Handle Jump Offset if isJumping
+    var corgiJumpOffset = 0;
+    if ( isJumping ) {
+        corgiJumpOffset = getJumpOffset();
+    }
+    
+    // Render Corgi
+    image(img, corgiX - 100, corgiY - 27 - corgiJumpOffset, img.width/3, img.height/3);
 }
   
 
 
-
+var corgiV = 0; // Corgi Velocity
 
 function keyPressed () {
-    if (keyCode !== 37 && keyCode !== 38 && keyCode !== 39 && keyCode !== 40 && keyCode !== 32) {
-        return;
-    }
+    if (!corgiV) corgiV = windowWidth * 0.015; 
+
     //left arrow
     if (keyCode == 37)
-        corgiX -= 5;
+        corgiX -= corgiV;
     
     if (corgiX < -110)
        corgiX = windowWidth - (img.width/3);
+    
     // right arrow
     if (keyCode == 39)
-        corgiX += 5;
+        corgiX += corgiV;
     
     if (corgiX > windowWidth)
        corgiX = 0;
-    //space
-    if (keyCode == 38) 
-        corgiY -= 5; 
+
+    // Up Arrow
+    if (keyCode == 38) {
+        corgiY -= corgiV; 
+    }
     
     if(corgiY < windowHeight/2)
         corgiY = windowHeight/2;
+
     //down arrow
     if (keyCode == 40)
-        corgiY += 5;
+        corgiY += corgiV;
     
     if(corgiY > windowHeight)
         corgiY = windowHeight;
     
-    //console.log ("keyPressed", keyCode)
+    // Spacebar
+    if (keyCode == 32) {
+        isJumping = true;
+    }
 }
 
+
+// ********** JUMPING ********** //
+
+var offsetArray = [0, 10, 25, 60, 100, 120, 125];
+var jumpIndex = -1;
+var isJumping = false;
+var isMovingUp = true;
+
+function getJumpOffset () {
+
+    // Setting up a strang counter which goes up and down the array
+    if (isMovingUp && jumpIndex < offsetArray.length - 1) {
+        jumpIndex++;
+    } else {
+        jumpIndex--;
+        isMovingUp = false;
+    }
+
+    // Once corgi comes down stop the jump cycle
+    if (!isMovingUp && jumpIndex === 1) {
+        isMovingUp = true;
+        isJumping = false;
+        jumpIndex = -1;
+        return 0;
+    }
+
+    return offsetArray[jumpIndex] * 1.5;
+}
