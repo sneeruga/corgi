@@ -4,15 +4,13 @@ var containerH = 0;
 var containerX = 0;
 var containerY = 0;
 
-var img;
-var img3;
-var poop;
-var poopImg;
 
 
-//var moveCorgi;
-var corgiX;
+// Corgi Variables
+var img; // var for image to be loaded
+var corgiX; // vars for corgi position
 var corgiY;
+
 
 // Defining list of snowflakes array
 var snowflakes = [
@@ -20,13 +18,16 @@ var snowflakes = [
 	{ x: 30, y: 30, size: 4, v: 5 }
 ];
 
+
 // Defining list of bone array
+var img3; // var for image to be loaded
 var bone = [
 	{ x: 10, y: 10, v: 5, size: 100},
 ];
 
 
 // Defining list of poop array
+var poopImg; // var for image to be loaded
 var poop = [
 	{ x: 90, y: 50, v: 5, size : 100 },
 ];
@@ -127,12 +128,28 @@ function draw () {
 		ellipse(flake.x, flake.y, flake.size, flake.size);
 	}
     
+    
+    
+    
+    
+    var corgiObj = {x: corgiX, y: corgiY, w: img.width/3, h: img.height/3};
+    
+    
+    
+    
+    
     // for each bone
 	for (var i = 0; i < bone.length; i++) {
 		var treat = bone[i]; // define current bone
-		
+		treat.w = treat.size * 1.33;
+        treat.h = treat.size;
+        
 		// update treat y coordinate based on treat velocity
 		treat.y = treat.y + treat.v;
+        
+        if ( detectCollision(corgiObj, treat) ) {
+
+        }
 
 		// if flake is beyond bottom of the canvas element, start it at the top
 		if ( treat.y > containerH ) {
@@ -143,16 +160,22 @@ function draw () {
 
 		// draw bone
 		image(img3, treat.x, treat.y, treat.size * 1.33, treat.size);
-        
+    }
         
         
         
         // for each poop
 	for (var i = 0; i < poop.length; i++) {
 		var shit = poop[i]; // define current bone
-		
+		shit.h = shit.size;
+        shit.w = shit.size;
+        
 		// update treat y coordinate based on treat velocity
 		shit.y = shit.y + shit.v;
+        
+        if ( detectCollision(corgiObj, shit) ) {
+
+        }
 
 		// if flake is beyond bottom of the canvas element, start it at the top
 		if ( shit.y > containerH ) {
@@ -165,23 +188,7 @@ function draw () {
 		// draw bone - image(img, x, y, width, height)
 		image(poopImg, shit.x, shit.y, shit.size, shit.size);
 	}
-}
-    
-    
-    
-    
-    
-    
-    /*//draw corgi
-    image(img, moveCorgi, containerH-190, img.width/2, img.height/2);
-    moveCorgi++;
-       if (moveCorgi <= windowWidth) {
-        moveCorgi++;
-         }
-         else{
-         moveCorgi--;
-         } */
-    //draw corgi
+
 
 
     // Handle Jump Offset if isJumping
@@ -193,6 +200,25 @@ function draw () {
     // Render Corgi
     image(img, corgiX - 100, corgiY - 27 - corgiJumpOffset, img.width/3, img.height/3);
 }
+
+
+// Usage => if ( dectectCollision(corgi, poo1) ) => true / false
+function detectCollision (objA, objB) {
+    if ( !objA || !objB ) { 
+        return false;
+    }
+
+    if (objA.x < objB.x + objB.w &&
+        objA.x + objA.w > objB.x &&
+        objA.y < objB.y + objB.h &&
+        objA.y + objA.h > objB.y) {
+        return true;
+    }
+    
+    return false;
+}  
+    
+    
 
 var corgiV = 0; // Corgi Velocity
 
