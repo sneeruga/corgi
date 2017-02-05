@@ -11,6 +11,17 @@
   	body { padding: 0; margin: 0; display: block; height: 100vh; overflow: auto; }
   	#Display { height: 100%; width: 100%; display: block; position: relative; margin: auto; }
   </style>
+  <script>
+      var audio, play;
+      function initAudioPlayer() {
+          audio = new Audio();
+          audio.src = "audio/Galaxy.mp3";
+          audio.loop = true;
+          audio.play(); 
+      }
+      window.addEventListener("load", initAudioPlayer);
+    
+  </script>
 </head>
 <body>
 	<main>
