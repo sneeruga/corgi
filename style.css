@@ -1,0 +1,7 @@
+button{border:none; cursor:pointer;}
+button#playbtn {
+    url(img/play.png) no-repeat;
+}
+button#pausebtn{
+    url(img/pause.png) no-repeat;
+}

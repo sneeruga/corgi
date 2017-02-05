@@ -7,10 +7,21 @@ var containerY = 0;
 var img;
 var img3;
 
+//audio
+var play;
+var pause;
+var playX;
+var playY;
+
+var playbtn;
+var pausebtn;
+
 
 //var moveCorgi;
 var corgiX;
 var corgiY;
+
+var audio, play, pause;
 
 // Defining list of snowflakes array
 var snowflakes = [
@@ -71,12 +82,33 @@ function setup () {
 
     //load image of bone
     img3 =loadImage("img/BONE3.png");
-
+    
+    
+    //load pause btn
+    pause = loadImage("img/pause.png");
+    pauseX = 20;
+    pauseY = 40;
+    pausebtn = createImg("img/pause.png");
+    pausebtn.id('pause');
+    pausebtn.position(pauseX, pauseY);
+    
+   console.log(pausebtn);
+    
+//    //load play btn
+//    //play = loadImage("img/play.png");
+//    playX = 20;
+//    playY = 40;
+//    playbtn = createImg("img/play.png");
+//    playbtn.id('play');
+//    playbtn.position(playX, playY);
+//    
+//    console.log(playbtn);
     
     //initiating x coordinates for corgi
     //moveCorgi = 0;
     corgiX = 100;
     corgiY = windowHeight - 100;
+    
 }
 
 
@@ -118,11 +150,6 @@ function draw () {
 	}
     
     
-    
-    
-    
-    
-    
     /*//draw corgi
     image(img, moveCorgi, containerH-190, img.width/2, img.height/2);
     moveCorgi++;
@@ -143,6 +170,11 @@ function draw () {
     
     // Render Corgi
     image(img, corgiX - 100, corgiY - 27 - corgiJumpOffset, img.width/3, img.height/3);
+    
+    //Audio buttons
+////    image(play, playX - 100, playY - 27, img.width/13, img.height/9);
+//    image(pause, pauseX - 100, pauseY - 27, img.width/13, img.height/9);
+    
 }
 
 var corgiV = 0; // Corgi Velocity
@@ -185,7 +217,6 @@ function keyPressed () {
     }
 }
 
-
 // ********** JUMPING ********** //
 
 var offsetArray = [0, 10, 25, 60, 100, 120, 125];
@@ -213,3 +244,29 @@ function getJumpOffset () {
 
     return offsetArray[jumpIndex] * 1.5;
 }
+
+
+// ********** AUDIO ********** //
+function initAudioPlayer() {
+    audio = new Audio();
+    audio.src = "audio/Galaxy.mp3";
+    audio.loop = true;
+    audio.play(); 
+    console.log(audio);
+
+    //Set object references
+//    play = document.getElementById("play");
+    pause = document.getElementById("pause");
+    //Add Event Handling
+    pausebtn.elt.addEventListener("click", function(e){
+//        console.log(e);
+        if (!audio.paused) {
+            audio.pause();
+        } else {
+            audio.play();
+        }
+    });
+//    pause.addEventListener("click", pause);
+}
+window.addEventListener("load", initAudioPlayer);
+
