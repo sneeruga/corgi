@@ -133,14 +133,7 @@ function draw () {
          moveCorgi--;
          } */
     //draw corgi
-<<<<<<< HEAD
-    image(img, corgiX - 100, corgiY - 27, img.width/3, img.height/3);
-    
-    
-    //draw bone
-    //image(img3, 10, 330, img3.width/10, img3.height/10); 
-    
-=======
+
 
     // Handle Jump Offset if isJumping
     var corgiJumpOffset = 0;
@@ -150,11 +143,7 @@ function draw () {
     
     // Render Corgi
     image(img, corgiX - 100, corgiY - 27 - corgiJumpOffset, img.width/3, img.height/3);
->>>>>>> origin/master
 }
-
-  
-
 
 var corgiV = 0; // Corgi Velocity
 
