@@ -10,7 +10,7 @@ var containerY = 0;
 var img; // var for image to be loaded
 var corgiX; // vars for corgi position
 var corgiY;
-
+var corgiObj;
 
 // Defining list of snowflakes array
 var snowflakes = [
@@ -130,13 +130,16 @@ function draw () {
     
     
     
+    // Handle Jump Offset if isJumping
+    var corgiJumpOffset = 0;
+    if ( isJumping ) {
+        corgiJumpOffset = getJumpOffset();
+    }
+    
+    corgiObj = {x: corgiX - 100, y: corgiY - corgiJumpOffset, w: img.width/3, h: img.height/3};
     
     
-    var corgiObj = {x: corgiX, y: corgiY, w: img.width/3, h: img.height/3};
-    
-    
-    
-    
+
     
     // for each bone
 	for (var i = 0; i < bone.length; i++) {
@@ -148,13 +151,16 @@ function draw () {
 		treat.y = treat.y + treat.v;
         
         if ( detectCollision(corgiObj, treat) ) {
-
+            treat.size = random (75, 125);
+            treat.y = treat.size * -1;
+            treat.x = random((windowWidth - treat.size));
+            // add / subtract points here!!
         }
 
 		// if flake is beyond bottom of the canvas element, start it at the top
 		if ( treat.y > containerH ) {
-			treat.y = 0;
             treat.size = random (75, 125);
+            treat.y = treat.size * -1;
             treat.x = random((windowWidth - treat.size));
 		}
 
@@ -174,13 +180,17 @@ function draw () {
 		shit.y = shit.y + shit.v;
         
         if ( detectCollision(corgiObj, shit) ) {
-
+            shit.size = random (75, 125);
+            shit.y = shit.size * -1;
+            shit.x = random((windowWidth - shit.size));
+            
+            // add / subtract points here!!
         }
 
 		// if flake is beyond bottom of the canvas element, start it at the top
 		if ( shit.y > containerH ) {
-			shit.y = 0;
-            shit.size = random (75, 125);
+			shit.size = random (75, 125);
+            shit.y = shit.size * -1;
             shit.x = random((windowWidth - shit.size));
             
 		}
@@ -191,11 +201,7 @@ function draw () {
 
 
 
-    // Handle Jump Offset if isJumping
-    var corgiJumpOffset = 0;
-    if ( isJumping ) {
-        corgiJumpOffset = getJumpOffset();
-    }
+    
     
     // Render Corgi
     image(img, corgiX - 100, corgiY - 27 - corgiJumpOffset, img.width/3, img.height/3);
