@@ -48,16 +48,15 @@ function setup () {
     
 
     // Randomly Generate bone
-	for (var i = 0; i < 100; i++) {
-		var boneX = random(containerW); // where to start on x
-		var boneY = random((containerH * 1)); // where to start on y
-		var boneS = random(3, 8); // how big to be
-		var boneV = random(2, 5); // how fast to move
+	//for (var i = 0; i < 100; i++) { var boneX = random(containerW); // where to start on x
+    //var boneY = random((containerH * 1)); // where to start on y
+		//var boneS = random(3, 8); // how big to be
+		//var boneV = random(2, 5); // how fast to move
 
-	}
+	//}
     
      // Add each bone as it is generated to the bones
-		bone.push({ x: boneX, y: boneY, size: boneS, v: boneV });
+//bone.push({ x: boneX, y: boneY, size: boneS, v: boneV });
     
     
 	// Create new canvas element within section#Display
@@ -97,6 +96,9 @@ function draw () {
 			flake.y = 0;
 		}
 
+             
+        
+        
 		// draw snowflake
 		ellipse(flake.x, flake.y, flake.size, flake.size);
 	}
@@ -112,6 +114,9 @@ function draw () {
 		if ( treat.y > containerH ) {
 			treat.y = 0;
 		}
+
+        if ( treat.x > containerW ) {
+        treat.x = random(windowWidth);}
 
 		// draw bone
 		image(img3, treat.x, treat.y, treat.width/9, treat.height/10);
