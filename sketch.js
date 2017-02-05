@@ -29,7 +29,8 @@ var bone = [
 // Defining list of poop array
 var poopImg; // var for image to be loaded
 var poop = [
-	{ x: 90, y: 50, v: 5, size : 100 },
+	{ x: 90, y: 50, v: 5, size : 40 },
+    { x: 390, y: 50, v: 5, size : 40 },
 ];
 
 
@@ -55,33 +56,33 @@ function setup () {
 		snowflakes.push({ x: newX, y: newY, size: newS, v: newV });
     
     
-
-    // Randomly Generate bone
-	for (var i = 0; i < 100; i++) {
-		var boneX = random(containerW); // where to start on x
-		var boneY = random((containerH * 1)); // where to start on y
-		var boneS = random(3, 8); // how big to be
-		var boneV = random(2, 5); // how fast to move
-
-	}
-    
-     // Add each bone as it is generated to the bones
-		bone.push({ x: boneX, y: boneY, size: boneS, v: boneV });
-    
-    
-    // Randomly Generate poop
-	for (var i = 0; i < 100; i++) {
-		var poopX = random(containerW); // where to start on x
-		var poopY = random((containerH * 1)); // where to start on y
-		var poopS = random(3, 8); // how big to be
-		var poopV = random(2, 5); // how fast to move
-
-	}
-    
-     // Add each poop as it is generated to the poops
-		poop.push({ x: poopX, y: poopY, size: poopS, v: poopV });
-    
-    
+//
+//    // Randomly Generate bone
+//	for (var i = 0; i < 100; i++) {
+//		var boneX = random(containerW); // where to start on x
+//		var boneY = random((containerH * 1)); // where to start on y
+//		var boneS = random(3, 8); // how big to be
+//		var boneV = random(2, 5); // how fast to move
+//
+//	}
+//    
+//     // Add each bone as it is generated to the bones
+//		bone.push({ x: boneX, y: boneY, size: boneS, v: boneV });
+//    
+//    
+//    // Randomly Generate poop
+//	for (var i = 0; i < 100; i++) {
+//		var poopX = random(containerW); // where to start on x
+//		var poopY = random((containerH * 1)); // where to start on y
+//		var poopS = random(3, 8); // how big to be
+//		var poopV = random(2, 5); // how fast to move
+//            poop.push({ x: poopX, y: poopY, size: poopS, v: poopV });
+//	}
+//    
+//     // Add each poop as it is generated to the poops
+//		
+//    
+//    
     
     
 	// Create new canvas element within section#Display
@@ -180,7 +181,7 @@ function draw () {
 		shit.y = shit.y + shit.v;
         
         if ( detectCollision(corgiObj, shit) ) {
-            shit.size = random (75, 125);
+            shit.size = random (30, 60);
             shit.y = shit.size * -1;
             shit.x = random((windowWidth - shit.size));
             
@@ -189,7 +190,7 @@ function draw () {
 
 		// if flake is beyond bottom of the canvas element, start it at the top
 		if ( shit.y > containerH ) {
-			shit.size = random (75, 125);
+			shit.size = random (30, 60);
             shit.y = shit.size * -1;
             shit.x = random((windowWidth - shit.size));
             
