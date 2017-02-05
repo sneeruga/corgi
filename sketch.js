@@ -22,13 +22,13 @@ var snowflakes = [
 
 // Defining list of bone array
 var bone = [
-	{ x: 10, y: 10, size: 5, v: 5},
+	{ x: 10, y: 10, v: 5, size: 100},
 ];
 
 
 // Defining list of poop array
 var poop = [
-	{ x: 90, y: 50, size: 5, v: 5},
+	{ x: 90, y: 50, v: 5, size : 100 },
 ];
 
 
@@ -137,13 +137,18 @@ function draw () {
 		// if flake is beyond bottom of the canvas element, start it at the top
 		if ( treat.y > containerH ) {
 			treat.y = 0;
+            treat.size = random (75, 125);
+            treat.x = random((windowWidth - treat.size));
 		}
 
 		// draw bone
-		image(img3, treat.x, treat.y, treat.width/9, treat.height/10);
+		image(img3, treat.x, treat.y, treat.size * 1.33, treat.size);
+        
+        
+        
         
         // for each poop
-	for (var i = 0; i < bone.length; i++) {
+	for (var i = 0; i < poop.length; i++) {
 		var shit = poop[i]; // define current bone
 		
 		// update treat y coordinate based on treat velocity
@@ -152,12 +157,13 @@ function draw () {
 		// if flake is beyond bottom of the canvas element, start it at the top
 		if ( shit.y > containerH ) {
 			shit.y = 0;
+            shit.size = random (75, 125);
+            shit.x = random((windowWidth - shit.size));
+            
 		}
-
-		// draw bone
-		image(poopImg, shit.x, shit.y, shit.width/9, shit.height/10);
         
-        
+		// draw bone - image(img, x, y, width, height)
+		image(poopImg, shit.x, shit.y, shit.size, shit.size);
 	}
 }
     
