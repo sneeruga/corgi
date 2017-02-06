@@ -35,6 +35,8 @@ var img3; // var for image to be loaded
 var bone = [
 	{ x: 10, y: 10, v: 5, size: 30},
     { x: 380, y: 10, v: 5, size: 30},
+    { x: 680, y: 10, v: 5, size: 30},
+
 ];
 
 
@@ -204,21 +206,6 @@ function draw () {
 		// draw bone - image(img, x, y, width, height)
 		image(poopImg, shit.x, shit.y, shit.size, shit.size);
 	}
-<<<<<<< HEAD
-    
-    
-    /*//draw corgi
-    image(img, moveCorgi, containerH-190, img.width/2, img.height/2);
-    moveCorgi++;
-       if (moveCorgi <= windowWidth) {
-        moveCorgi++;
-         }
-         else{
-         moveCorgi--;
-         } */
-    //draw corgi
-=======
->>>>>>> origin/master
 
 
 
