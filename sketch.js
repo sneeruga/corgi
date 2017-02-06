@@ -14,6 +14,8 @@ var playY;
 var playbtn;
 var pausebtn;
 
+var startGame;
+
 
 // Corgi Variables
 var img; // var for image to be loaded
@@ -26,6 +28,9 @@ var audio, play, pause;
 //score counter
 var score = 0;
 
+//start screen
+var screen;
+
 // Defining list of snowflakes array
 var snowflakes = [
 	{ x: 10, y: 10, size: 5, v: 5},
@@ -36,7 +41,10 @@ var snowflakes = [
 // Defining list of bone array
 var img3; // var for image to be loaded
 var bone = [
-	{ x: 10, y: 10, v: 5, size: 100},
+	{ x: 10, y: 10, v: 5, size: 30},
+    { x: 380, y: 10, v: 5, size: 30},
+    { x: 680, y: 10, v: 5, size: 30},
+
 ];
 
 
@@ -48,6 +56,10 @@ var poop = [
 ];
 
 
+
+// **************************** //
+// ********** SETUP ********** //
+// **************************** //
 function setup () {
 	// Calculating and Updating variables for canvas size		
 	containerW = windowWidth;
@@ -69,35 +81,7 @@ function setup () {
     // Add each snowflake as it is generated to the snowflakes
 		snowflakes.push({ x: newX, y: newY, size: newS, v: newV });
     
-    
-//
-//    // Randomly Generate bone
-//	for (var i = 0; i < 100; i++) {
-//		var boneX = random(containerW); // where to start on x
-//		var boneY = random((containerH * 1)); // where to start on y
-//		var boneS = random(3, 8); // how big to be
-//		var boneV = random(2, 5); // how fast to move
-//
-//	}
-//    
-//     // Add each bone as it is generated to the bones
-//		bone.push({ x: boneX, y: boneY, size: boneS, v: boneV });
-//    
-//    
-//    // Randomly Generate poop
-//	for (var i = 0; i < 100; i++) {
-//		var poopX = random(containerW); // where to start on x
-//		var poopY = random((containerH * 1)); // where to start on y
-//		var poopS = random(3, 8); // how big to be
-//		var poopV = random(2, 5); // how fast to move
-//            poop.push({ x: poopX, y: poopY, size: poopS, v: poopV });
-//	}
-//    
-//     // Add each poop as it is generated to the poops
-//		
-//    
-//    
-    
+
     
 	// Create new canvas element within section#Display
 	var Canvas = createCanvas(containerW, containerH); 
@@ -140,117 +124,124 @@ function setup () {
     corgiX = 100;
     corgiY = windowHeight - 100;
     
+   startGame = confirm("Collect as many treats and avoid the poop! Ready? Click OK to begin.")
+   
+     
 }
 
 
 
-function draw () {
-	// erase all pixels on canvas
-	background(50);
+// **************************** //
+// ********** DRAW ********** //
+// **************************** //
 
-	// for each snowflake
-	for (var i = 0; i < snowflakes.length; i++) {
-		var flake = snowflakes[i]; // define current snowflake
-		
-		// update flake y coordinate based on flake velocity
-		flake.y = flake.y + flake.v;
+function draw() {
+    
+    if(startGame) {
+        
+    
+        // erase all pixels on canvas
+        background(50);
 
-		// if flake is beyond bottom of the canvas element, start it at the top
-		if ( flake.y > containerH ) {
-			flake.y = 0;
-		}
+        // for each snowflake
+        for (var i = 0; i < snowflakes.length; i++) {
+            var flake = snowflakes[i]; // define current snowflake
 
-		// draw snowflake
-		ellipse(flake.x, flake.y, flake.size, flake.size);
-	}
-    
-    
-    
-    // Handle Jump Offset if isJumping
-    var corgiJumpOffset = 0;
-    if ( isJumping ) {
-        corgiJumpOffset = getJumpOffset();
-    }
-    
-    
-    corgiObj = {x: corgiX - 100, y: corgiY - corgiJumpOffset, w: img.width/3, h: img.height/3};
-    
-    
+            // update flake y coordinate based on flake velocity
+            flake.y = flake.y + flake.v;
 
-    
-    // for each bone
-	for (var i = 0; i < bone.length; i++) {
-		var treat = bone[i]; // define current bone
-		treat.w = treat.size * 1.33;
-        treat.h = treat.size;
-        
-		// update treat y coordinate based on treat velocity
-		treat.y = treat.y + treat.v;
-        
-        if ( detectCollision(corgiObj, treat) ) {
-            treat.size = random (75, 125);
-            treat.y = treat.size * -1;
-            treat.x = random((windowWidth - treat.size));
-            //Add score
-            score++;
-        }
-        
+            // if flake is beyond bottom of the canvas element, start it at the top
+            if ( flake.y > containerH ) {
+                flake.y = 0;
+            }
 
-		// if flake is beyond bottom of the canvas element, start it at the top
-		if ( treat.y > containerH ) {
-            treat.size = random (75, 125);
-            treat.y = treat.size * -1;
-            treat.x = random((windowWidth - treat.size));
-
-		}
-
-		// draw bone
-		image(img3, treat.x, treat.y, treat.size * 1.33, treat.size);
-    }
-        
-        
-        
-        // for each poop
-	for (var i = 0; i < poop.length; i++) {
-		var shit = poop[i]; // define current bone
-		shit.h = shit.size;
-        shit.w = shit.size;
-        
-		// update treat y coordinate based on treat velocity
-		shit.y = shit.y + shit.v;
-        
-        if ( detectCollision(corgiObj, shit) ) {
-            shit.size = random (30, 60);
-            shit.y = shit.size * -1;
-            shit.x = random((windowWidth - shit.size));
-            //Subtract points here
-            score--;            
+            // draw snowflake
+            ellipse(flake.x, flake.y, flake.size, flake.size);
         }
 
-		// if flake is beyond bottom of the canvas element, start it at the top
-		if ( shit.y > containerH ) {
-			shit.size = random (30, 60);
-            shit.y = shit.size * -1;
-            shit.x = random((windowWidth - shit.size));
-            
-		}
-        
-		// draw bone - image(img, x, y, width, height)
-		image(poopImg, shit.x, shit.y, shit.size, shit.size);
-	}
+        // Handle Jump Offset if isJumping
+        var corgiJumpOffset = 0;
+        if ( isJumping ) {
+            corgiJumpOffset = getJumpOffset();
+        }
 
-drawScore();
+        corgiObj = {x: corgiX - 100, y: corgiY - corgiJumpOffset, w: img.width/3, h: img.height/3};
 
+        // for each bone
+        for (var i = 0; i < bone.length; i++) {
+            var treat = bone[i]; // define current bone
+            treat.w = treat.size * 1.33;
+            treat.h = treat.size;
+
+            // update treat y coordinate based on treat velocity
+            treat.y = treat.y + treat.v;
+
+            if ( detectCollision(corgiObj, treat) ) {
+                treat.size = random (30, 50);
+                treat.y = treat.size * -1;
+                treat.x = random((windowWidth - treat.size));
+                //Add score
+                score++;
+            }
+
+
+            // if flake is beyond bottom of the canvas element, start it at the top
+            if ( treat.y > containerH ) {
+                treat.size = random (30, 50);
+                treat.y = treat.size * -1;
+                treat.x = random((windowWidth - treat.size));
+
+            }
+
+            // draw bone
+            image(img3, treat.x, treat.y, treat.size * 1.33, treat.size);
+        }
+
+
+
+            // for each poop
+        for (var i = 0; i < poop.length; i++) {
+            var shit = poop[i]; // define current bone
+            shit.h = shit.size;
+            shit.w = shit.size;
+
+            // update treat y coordinate based on treat velocity
+            shit.y = shit.y + shit.v;
+
+            if ( detectCollision(corgiObj, shit) ) {
+                shit.size = random (10, 20);
+                shit.y = shit.size * -1;
+                shit.x = random((windowWidth - shit.size));
+                //Subtract points here
+                score--;            
+            }
+
+            // if flake is beyond bottom of the canvas element, start it at the top
+            if ( shit.y > containerH ) {
+                shit.size = random (30, 60);
+                shit.y = shit.size * -1;
+                shit.x = random((windowWidth - shit.size));
+
+            }
+
+            // draw bone - image(img, x, y, width, height)
+            image(poopImg, shit.x, shit.y, shit.size, shit.size);
+        }
+
+        drawScore();
+
+    
 
 
     
     
-    // Render Corgi
-    image(img, corgiX - 100, corgiY - 27 - corgiJumpOffset, img.width/3, img.height/3);
+        // Render Corgi
+        image(img, corgiX - 100, corgiY - 27 - corgiJumpOffset, img.width/3, img.height/3);
     
-    //Audio buttons
-////    image(play, playX - 100, playY - 27, img.width/13, img.height/9);
-//    image(pause, pauseX - 100, pauseY - 27, img.width/13, img.height/9);
+        // Audio buttons
+        //  image(play, playX - 100, playY - 27, img.width/13, img.height/9);
+        //  image(pause, pauseX - 100, pauseY - 27, img.width/13, img.height/9);
+    }
     
 }
 
@@ -260,6 +251,8 @@ function detectCollision (objA, objB) {
     if ( !objA || !objB ) { 
         return false;
     }
+    
+    //If object A and object B doesn't exist
 
     if (objA.x < objB.x + objB.w &&
         objA.x + objA.w > objB.x &&
