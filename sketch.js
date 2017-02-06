@@ -23,6 +23,9 @@ var corgiObj;
 
 var audio, play, pause;
 
+//score counter
+var score = 0;
+
 // Defining list of snowflakes array
 var snowflakes = [
 	{ x: 10, y: 10, size: 5, v: 5},
@@ -169,6 +172,7 @@ function draw () {
         corgiJumpOffset = getJumpOffset();
     }
     
+    
     corgiObj = {x: corgiX - 100, y: corgiY - corgiJumpOffset, w: img.width/3, h: img.height/3};
     
     
@@ -187,14 +191,17 @@ function draw () {
             treat.size = random (75, 125);
             treat.y = treat.size * -1;
             treat.x = random((windowWidth - treat.size));
-            // add / subtract points here!!
+            //Add score
+            score++;
         }
+        
 
 		// if flake is beyond bottom of the canvas element, start it at the top
 		if ( treat.y > containerH ) {
             treat.size = random (75, 125);
             treat.y = treat.size * -1;
             treat.x = random((windowWidth - treat.size));
+
 		}
 
 		// draw bone
@@ -216,8 +223,8 @@ function draw () {
             shit.size = random (30, 60);
             shit.y = shit.size * -1;
             shit.x = random((windowWidth - shit.size));
-            
-            // add / subtract points here!!
+            //Subtract points here
+            score--;            
         }
 
 		// if flake is beyond bottom of the canvas element, start it at the top
@@ -231,21 +238,8 @@ function draw () {
 		// draw bone - image(img, x, y, width, height)
 		image(poopImg, shit.x, shit.y, shit.size, shit.size);
 	}
-<<<<<<< HEAD
-    
-    
-    /*//draw corgi
-    image(img, moveCorgi, containerH-190, img.width/2, img.height/2);
-    moveCorgi++;
-       if (moveCorgi <= windowWidth) {
-        moveCorgi++;
-         }
-         else{
-         moveCorgi--;
-         } */
-    //draw corgi
-=======
->>>>>>> origin/master
+
+drawScore();
 
 
 
@@ -277,7 +271,14 @@ function detectCollision (objA, objB) {
     return false;
 }  
     
-    
+function drawScore() {
+//    font = "500px Arial";
+//    fill = "#00000";
+    textSize(50);
+    fill(250, 250, 250);
+    text("Score: "+score, 1350, 80);
+
+}
 
 var corgiV = 0; // Corgi Velocity
 
@@ -297,21 +298,6 @@ function keyPressed () {
     
     if (corgiX > windowWidth)
        corgiX = 0;
-
-    // Up Arrow
-    if (keyCode == 38) {
-        corgiY -= corgiV; 
-    }
-    
-    if(corgiY < windowHeight/2)
-        corgiY = windowHeight/2;
-
-    //down arrow
-    if (keyCode == 40)
-        corgiY += corgiV;
-    
-    if(corgiY > windowHeight)
-        corgiY = windowHeight;
     
     // Spacebar
     if (keyCode == 32) {
