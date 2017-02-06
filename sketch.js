@@ -33,7 +33,8 @@ var snowflakes = [
 // Defining list of bone array
 var img3; // var for image to be loaded
 var bone = [
-	{ x: 10, y: 10, v: 5, size: 100},
+	{ x: 10, y: 10, v: 5, size: 30},
+    { x: 380, y: 10, v: 5, size: 30},
 ];
 
 
@@ -66,35 +67,7 @@ function setup () {
     // Add each snowflake as it is generated to the snowflakes
 		snowflakes.push({ x: newX, y: newY, size: newS, v: newV });
     
-    
-//
-//    // Randomly Generate bone
-//	for (var i = 0; i < 100; i++) {
-//		var boneX = random(containerW); // where to start on x
-//		var boneY = random((containerH * 1)); // where to start on y
-//		var boneS = random(3, 8); // how big to be
-//		var boneV = random(2, 5); // how fast to move
-//
-//	}
-//    
-//     // Add each bone as it is generated to the bones
-//		bone.push({ x: boneX, y: boneY, size: boneS, v: boneV });
-//    
-//    
-//    // Randomly Generate poop
-//	for (var i = 0; i < 100; i++) {
-//		var poopX = random(containerW); // where to start on x
-//		var poopY = random((containerH * 1)); // where to start on y
-//		var poopS = random(3, 8); // how big to be
-//		var poopV = random(2, 5); // how fast to move
-//            poop.push({ x: poopX, y: poopY, size: poopS, v: poopV });
-//	}
-//    
-//     // Add each poop as it is generated to the poops
-//		
-//    
-//    
-    
+
     
 	// Create new canvas element within section#Display
 	var Canvas = createCanvas(containerW, containerH); 
@@ -184,7 +157,7 @@ function draw () {
 		treat.y = treat.y + treat.v;
         
         if ( detectCollision(corgiObj, treat) ) {
-            treat.size = random (75, 125);
+            treat.size = random (30, 50);
             treat.y = treat.size * -1;
             treat.x = random((windowWidth - treat.size));
             // add / subtract points here!!
@@ -192,7 +165,7 @@ function draw () {
 
 		// if flake is beyond bottom of the canvas element, start it at the top
 		if ( treat.y > containerH ) {
-            treat.size = random (75, 125);
+            treat.size = random (30, 50);
             treat.y = treat.size * -1;
             treat.x = random((windowWidth - treat.size));
 		}
@@ -213,7 +186,7 @@ function draw () {
 		shit.y = shit.y + shit.v;
         
         if ( detectCollision(corgiObj, shit) ) {
-            shit.size = random (30, 60);
+            shit.size = random (10, 20);
             shit.y = shit.size * -1;
             shit.x = random((windowWidth - shit.size));
             
@@ -266,6 +239,8 @@ function detectCollision (objA, objB) {
     if ( !objA || !objB ) { 
         return false;
     }
+    
+    //If object A and object B doesn't exist
 
     if (objA.x < objB.x + objB.w &&
         objA.x + objA.w > objB.x &&
